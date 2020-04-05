@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <title>Demo - DurationPickerMaker</title>
+    <meta content="" name="description">
+    <meta content="width=device-width, initial-scale=1" name="viewport"><!-- Latest compiled and minified CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body style="padding:20px">
+<h1> Duration picker demonstration</h1>
+<hr>
+
+<p>Try to edit time by typing digits, using arrow keys and clicking in various places on the time value.</p>
+<div class="">
+    <div class="row">
+        <input class="form-control col-4" id="duration_picker_field" >
+        <div style="margin: 10px">
+            <label>Total seconds : </label>
+            <label id="output_label"></label>
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class=""  >
+            <label class="">StopWatch</label>
+            <button class="btn btn-primary "
+                    id="startButton"
+
+            >Start
+            </button>
+
+            <button class="btn btn-danger "
+                    id="stopButton"
+
+            >Stop
+            </button>
+
+            <button class=" btn btn-warning "
+                    id="resetButton"
+
+            >Reset
+            </button>
+        </div>
+    </div>
+</div>
+<br>
+
+<script>
+
+</script>
+
+<script src="../src/Stopwatch.js"></script>
+<script src="../src/DurationPickerMaker.js"></script>
+<script src="../src/FormattedDuration.js"></script>
+
+<script>
+
+    class LabelWrapperReceiver {
+        constructor(labelElement) {
+            this.labelElement = labelElement;
+        }
+
+        setSecondsValue(value) {
+            this.labelElement.textContent = value;
+        }
+    }
+
+    let pickerElement = document.getElementById("duration_picker_field");
+    let receiverLabel = document.getElementById("output_label");
+    let labelWrapperReceier = new LabelWrapperReceiver(receiverLabel);
+
+    let formattedDuration = new FormattedDuration(config = {
+        hoursUnitString: " h ",
+        minutesUnitString: " m ",
+        secondsUnitString: " s ",
+    });
+    let durationPickerMaker = new DurationPickerMaker(formattedDuration);
+
+    durationPickerMaker.AddSecondChangeObserver(labelWrapperReceier);
+    durationPickerMaker.SetPickerElement(pickerElement, window, document);
+
+
+    let startButton = document.getElementById("startButton");
+    let stopButton = document.getElementById("stopButton");
+    let resetButton = document.getElementById("resetButton");
+
+    new Stopwatch(
+        durationPickerMaker /*seconds observer*/,
+        buttons = {
+            startButton: startButton,
+            stopButton: stopButton,
+            resetButton: resetButton
+        },
+        window
+    );
+
+
+</script>
+
+</body>
+
+</html>
